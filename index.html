@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Udaan: Stock Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>📈 Udaan: Nifty 50 Stock Analysis</h1>
+    <form method="POST" action="/analyze">
+        <input type="text" name="symbol" placeholder="Enter Stock Symbol (e.g., RELIANCE)" required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if prediction %}
+    <div class="results">
+        <h2>📊 Analysis for {{ stock }}</h2>
+        <p><strong>Current Price:</strong> ₹{{ price }}</p>
+        <p><strong>50-day Moving Average:</strong> ₹{{ ma_50 }}</p>
+        <p><strong>200-day Moving Average:</strong> ₹{{ ma_200 }}</p>
+        <p><strong>Recommendation:</strong> 🏆 {{ prediction }}</p>
+        <h3>Select Time Period to View Chart</h3>
+        <div class="chart-buttons">
+            <a href="/chart/{{ stock }}/1d">1 Day</a>
+            <a href="/chart/{{ stock }}/5d">1 Week</a>
+            <a href="/chart/{{ stock }}/1mo">1 Month</a>
+            <a href="/chart/{{ stock }}/1y">1 Year</a>
+            <a href="/chart/{{ stock }}/max">Max</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>

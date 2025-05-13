@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chart - {{ symbol }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>📈 Chart for {{ symbol }} - {{ period }}</h2>
+    {% if chart_data %}
+    <canvas id="stockChart"></canvas>
+    <script>
+        const ctx = document.getElementById('stockChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_data.dates | tojson }},
+                datasets: [
+                    {
+                        label: 'Price',
+                        data: {{ chart_data.price | tojson }},
+                        borderColor: 'blue',
+                        fill: false
+                    },
+                    {
+                        label: '50-day MA',
+                        data: {{ chart_data.ma_50 | tojson }},
+                        borderColor: 'green',
+                        fill: false
+                    },
+                    {
+                        label: '200-day MA',
+                        data: {{ chart_data.ma_200 | tojson }},
+                        borderColor: 'orange',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { display: true },
+                    y: { display: true }
+                }
+            }
+        });
+    </script>
+    {% else %}
+        <p>{{ error }}</p>
+    {% endif %}
+</div>
+</body>
+</html>
